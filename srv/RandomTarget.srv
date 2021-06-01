@@ -1,0 +1,4 @@
+string status # This is the request message sent to the remote server
+---
+int8 cord_x # This is the response coordinates sent back to the robot controller
+int8 cord_y 
