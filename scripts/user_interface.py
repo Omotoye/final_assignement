@@ -10,10 +10,15 @@ from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 
 from final_assignment.srv import RandomTarget
 from final_assignment.srv import RandomTargetResponse
+from std_srvs.srv import *
+from geometry_msgs.msg import Twist
+
 
 from math import *
 import time
 
+
+srv_client_wall_follower_ = None
 current_position_x = 0.0
 current_position_y = 0.0
 TARGET_POSE = [(-4, -3), (-4, 2), (-4, 7), (5, -7), (5, -3), (5, 1)]
@@ -114,8 +119,16 @@ def main():
     # Initializing the node
     rospy.init_node('user_interface')
 
+    global srv_client_wall_follower_
+
+    # Creating a publisher object
+    vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
+
     # Create an action client called "move_base" with action definition file "MoveBaseAction"
     client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
+
+    srv_client_wall_follower_ = rospy.ServiceProxy(
+        '/wall_follower_switch', SetBool)
 
     state = 0
     dis = 0
@@ -154,8 +167,20 @@ def main():
                 state = 3
             else:
                 print('Please enter one of the possible positions')
-
-        elif (pick not in range(1, 3)):
+        elif (pick == 3 and state == 1):
+            resp = srv_client_wall_follower_(True)
+            print('Follow Wall has Started')
+            state = 0
+        elif (pick == 4 and state == 1):
+            resp = srv_client_wall_follower_(False)
+            # Creating an object for the robot motion
+            velocity = Twist()
+            velocity.linear.x = 0.0
+            velocity.angular.z = 0.0
+            vel_pub.publish(velocity)
+            print('Follow wall has been stopped')
+            state = 0
+        elif (pick not in range(1, 5)):
             state = 0
 
         if (state == 3):
