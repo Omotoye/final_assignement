@@ -8,9 +8,8 @@ from actionlib_msgs.msg._GoalStatus import GoalStatus
 # Brings in the .action file and messages used by the move base action
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 
-from rt_assignment_1.srv import RandomTarget
-from rt_assignment_1.srv import RandomTargetRequest
-from rt_assignment_1.srv import RandomTargetResponse
+from final_assignment.srv import RandomTarget
+from final_assignment.srv import RandomTargetResponse
 
 from math import *
 import time
