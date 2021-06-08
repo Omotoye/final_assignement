@@ -14,7 +14,7 @@ import time
 TARGET_POSE = [(-4, -3), (-4, 2), (-4, 7), (5, -7), (5, -3), (5, 1)]
 target2 = RandomTargetResponse()
 
-PROMPT_MSG = """Please Enter a number corresponding to one of the following actions:
+PROMPT_MSG = f"""Please Enter a number corresponding to one of the following actions:
 1. Move randomly in the environment by choosing one of the 6 possible
 target positions.
 2. Select one of the possible positions.
@@ -49,6 +49,19 @@ def call_movebase(target):
         print(f'Service call failed: {e}')
 
 
+def call_bug_algo(target):
+    rospy.set_param("des_pos_x", target.cord_x)
+    rospy.set_param("des_pos_y", target.cord_y)
+    print("Thanks! Let's reach the next position")
+    rospy.wait_for_service('bug_switch')
+    try:
+        bug0 = rospy.ServiceProxy('bug_switch', MoveBaseResult)
+        res = bug0('Are you there yet!')
+        return res.status
+    except rospy.ServiceException as e:
+        print(f'Service call failed: {e}')
+
+
 def wait_for_result():
     rospy.wait_for_service('movebase_result')
     try:
@@ -57,12 +70,13 @@ def wait_for_result():
         return res.status
     except rospy.ServiceException as e:
         print(f'Service call failed: {e}')
-        
+
+
 def call_wall_follower(msg):
     rospy.wait_for_service('/wall_follower_switch')
     try:
         srv_client_wall_follower_ = rospy.ServiceProxy(
-        '/wall_follower_switch', SetBool)
+            '/wall_follower_switch', SetBool)
         resp = srv_client_wall_follower_(msg)
         return True
     except rospy.ServiceException as e:
@@ -78,6 +92,7 @@ def main():
 
     state = 0
     pick = 0
+    algo = 0
 
     while not rospy.is_shutdown():
         if (state == 0):
@@ -91,12 +106,18 @@ def main():
 
         if (pick == 1 and state == 1):
             target = call_rand_target()
-            resp = call_movebase(target)
-            while (resp):
-                target = call_rand_target()
+            if (algo == 0):
                 resp = call_movebase(target)
-            wait_for_result()
-            state = 0
+                while (resp):
+                    target = call_rand_target()
+                    resp = call_movebase(target)
+                wait_for_result()
+                state = 0
+            else:
+                resp = call_bug_algo(target2)
+                print(resp)
+                algo = 0 
+                state = 0
 
         elif (pick == 2 and state == 1):
             print('Please enter a x and y cordinate from the possible position list')
@@ -105,11 +126,17 @@ def main():
             if (check_location(x, y)):
                 target2.cord_x = x
                 target2.cord_y = y
-                resp = call_movebase(target2)
-                if(resp):
-                    print('The Robot is already at this location')
-                else:
-                    wait_for_result()
+                if (algo == 0):
+                    resp = call_movebase(target2)
+                    if(resp):
+                        print('The Robot is already at this location')
+                    else:
+                        wait_for_result()
+                        state = 0
+                else: 
+                    resp = call_bug_algo(target2)
+                    print(resp)
+                    algo = 0 
                     state = 0
             else:
                 print('Please enter one of the possible positions')
@@ -127,8 +154,11 @@ def main():
             vel_pub.publish(velocity)
             print('Follow wall has been stopped')
             state = 0
-
-        elif (pick not in range(1, 5)):
+        elif (pick == 5 and state == 1):
+            algo = 1 
+            print('The path planning algorithm has been changed to Bug0')
+            state = 0 
+        elif (pick not in range(1, 6)):
             state = 0
 
 

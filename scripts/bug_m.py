@@ -10,6 +10,7 @@ from tf import transformations
 # import ros service
 from std_srvs.srv import *
 from geometry_msgs.msg import Twist
+from final_assignment.srv import MoveBaseResult, MoveBaseResultResponse
 
 import math
 
@@ -21,8 +22,8 @@ yaw_ = 0
 yaw_error_allowed_ = 5 * (math.pi / 180)  # 5 degrees
 position_ = Point()
 desired_position_ = Point()
-desired_position_.x = rospy.get_param('des_pos_x')
-desired_position_.y = rospy.get_param('des_pos_y')
+desired_position_.x = 0
+desired_position_.y = 0
 desired_position_.z = 0
 regions_ = None
 state_desc_ = ['Go to point', 'wall following', 'target reached']
@@ -60,6 +61,25 @@ def clbk_laser(msg):
     }
 
 
+def handle_result(mes):
+    global state_ 
+    time.sleep(1)
+    change_state(0)
+    count = 0
+    while(state_ != 4 and count != 30):
+        time.sleep(2)
+        count += 1
+    if(state_ == 4):
+        res = 'Target Reached'
+        print(res)
+    elif(count == 30):
+        res = 'Target could not be reached'
+        change_state(2)
+        print(res)
+
+    return MoveBaseResultResponse(res)
+
+
 def change_state(state):
     global state_, state_desc_
     global srv_client_wall_follower_, srv_client_go_to_point_
@@ -79,7 +99,7 @@ def change_state(state):
         twist_msg.linear.x = 0
         twist_msg.angular.z = 0
         pub.publish(twist_msg)
-        resp = srv_client_user_interface_()
+        state_ = 4
 
 
 def normalize_angle(angle):
@@ -103,16 +123,17 @@ def main():
         '/go_to_point_switch', SetBool)
     srv_client_wall_follower_ = rospy.ServiceProxy(
         '/wall_follower_switch', SetBool)
-    srv_client_user_interface_ = rospy.ServiceProxy('/user_interface', Empty)
+    t = rospy.Service('bug_switch', MoveBaseResult, handle_result)
 
     # initialize going to the point
-    change_state(0)
+    change_state(2)
 
     rate = rospy.Rate(20)
     while not rospy.is_shutdown():
         if regions_ == None:
             continue
-
+        if state_ == 4:
+            continue
         if state_ == 0:
             err_pos = math.sqrt(pow(desired_position_.y - position_.y,
                                     2) + pow(desired_position_.x - position_.x, 2))
