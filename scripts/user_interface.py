@@ -13,12 +13,20 @@ import time
 
 TARGET_POSE = [(-4, -3), (-4, 2), (-4, 7), (5, -7), (5, -3), (5, 1)]
 target2 = RandomTargetResponse()
+algo = 0
+path_planner = ['Move Base: Dijkstra', 'Bug0']
+PROMPT_MSG = f"""
+Please Enter a number corresponding to one of the following actions:
 
-PROMPT_MSG = f"""Please Enter a number corresponding to one of the following actions:
-1. Move randomly in the environment by choosing one of the 6 possible
-target positions.
+Possible Position = {TARGET_POSE}
+Path Planning Algorithm: {path_planner[algo]}
+
+1. Move to a Random position from one of the 6 possible positions.
 2. Select one of the possible positions.
-Possible Position = [(-4, -3), (-4, 2), (-4, 7), (5, -7), (5, -3), (5, 1)]
+3. Start following external walls.
+4. Stop in the last position. 
+5. Change the planning Algorithm from Dijkstra to Bug0
+
 """
 
 
@@ -89,7 +97,7 @@ def main():
 
     # Creating a publisher object
     vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
-
+    global algo 
     state = 0
     pick = 0
     algo = 0
