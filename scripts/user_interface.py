@@ -42,7 +42,7 @@ def check_location(x, y):
         y (int): The y coordinate of the selected position
 
     Returns:
-        bool: The function returns True if the position selected 
+        [bool]: The function returns True if the position selected 
         is in the posible target position list, and False if it is
         not in the list. 
     """
@@ -58,7 +58,7 @@ def call_rand_target():
     positions. 
 
     Returns:
-        RandomTarget: It returns an object of the RandomTarget message 
+        [RandomTarget]: It returns an object of the RandomTarget message 
     """
     rospy.wait_for_service('random_target')
     try:
@@ -80,7 +80,7 @@ def call_movebase(target):
         coordinate of the target position
 
     Returns:
-        string: A string containing a response message sent from the server. 
+        [string]: A string containing a response message sent from the server. 
     """
     rospy.wait_for_service('movebase_client')
     try:
@@ -102,7 +102,7 @@ def call_bug_algo(target):
         coordinate of the target position
 
     Returns:
-        string: A string containing a response message sent from the server. 
+        [string]: A string containing a response message sent from the server. 
     """
 
     # sends the x and y coordinate to a parameter server
@@ -123,7 +123,7 @@ def wait_for_result():
     the target had been reached before send a response of target reached. 
 
     Returns:
-        string: A string containing a response message "Target Reached". 
+        [string]: A string containing a response message "Target Reached". 
     """
     rospy.wait_for_service('movebase_result')
     try:
@@ -143,7 +143,7 @@ def call_wall_follower(msg):
         to either make the service active or not active 
 
     Returns:
-        bool: Boolean to signify the success of the function. 
+        [bool]: Boolean to signify the success of the function. 
     """
     rospy.wait_for_service('/wall_follower_switch')
     try:

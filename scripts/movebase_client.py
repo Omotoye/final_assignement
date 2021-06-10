@@ -8,8 +8,8 @@ from actionlib_msgs.msg._GoalStatus import GoalStatus
 # Brings in the .action file and messages used by the move base action
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 
-from final_assignment.srv import RandomTarget, MoveBaseResult, MoveBaseResultResponse
-from final_assignment.srv import RandomTargetResponse, MoveBaseTarget, MoveBaseTargetResponse
+from final_assignment.srv import RandomTarget, RandomTargetResponse
+from final_assignment.srv import MoveBaseTarget, MoveBaseTargetResponse, MoveBaseResult, MoveBaseResultResponse
 from std_srvs.srv import *
 from geometry_msgs.msg import Twist
 
@@ -17,24 +17,26 @@ from geometry_msgs.msg import Twist
 from math import *
 import time
 
-
+# variable that takes in the current position of the robot
 current_position_x = 0.0
 current_position_y = 0.0
 target = RandomTargetResponse()
+
+# variable used to specify the state of the node, each state corresponds to some action
 state = 0
 
 
 def the_distance_to_target(target):
-    """
-    Calculates the distance between the robot and the
-    target
+    """Calculate the distance between the position of the robot and the
+    target position 
+
     Args:
-        target (Object): Object containing the x and y
-        coodinates of the new target
+        target (RandomTarget): This is a custom ROS message containing an x and y 
+        coordinate of the target position
+
     Returns:
-        (int): returns a tuple of the value of the
-        distance to the target and the required yaw to
-        face the direction of the target
+        [float]: A float containing the distance between the robot pose
+        and the target pose.  
     """
 
     dist_x = target.cord_x - current_position_x
@@ -44,6 +46,17 @@ def the_distance_to_target(target):
 
 
 def check_target(target):
+    """This function check to see if the robot is not already in the new 
+    target that is received. 
+
+    Args:
+        target (RandomTarget): This is a custom ROS message containing an x and y 
+        coordinate of the target position
+
+    Returns:
+        [bool]: The function returns True if the robot is already at the new 
+        target received and returns False if the robot is not at the new target received. 
+    """
     if (abs(current_position_x - target.cord_x) < 0.5 and abs(current_position_y - target.cord_y) < 0.5):
         return True
     else:
@@ -51,6 +64,17 @@ def check_target(target):
 
 
 def handle_target(mes):
+    """This function is a callback function for the movebase client that sets 
+    the state to 1 which means active (start goal)
+
+    Args:
+        mes (RandomTarget): This is a custom ROS message containing an x and y 
+        coordinate of the target position
+
+    Returns:
+        [MoveBaseTargetResponse]: Sends a response status message to the client
+        that called the service
+    """
     global target
     global state
     if(check_target(mes)):
@@ -62,6 +86,16 @@ def handle_target(mes):
 
 
 def handle_result(mes):
+    """This is a callback function for a service for waiting for the result from 
+    the movebase action server.    
+
+    Args:
+        mes (string): Containing a string message from the client that called this service
+
+    Returns:
+        [MoveBaseResultResponse]: Send a response of status message "Target Reached" 
+        to the client when state is set to SUCCEEDED by the movebase action. 
+    """
     time.sleep(1)
     while(state != 0):
         time.sleep(2)
@@ -73,9 +107,10 @@ def feedback_callback(pose_message):
     """
     The pose callback function takes the position and posture of
     the robot from the argument "pose_message" and set it to
-    three global variables containing the x, y and yaw position.
+    two global variables containing the x and y coordinates pose.
+
     Args:
-        pose_message (Object): an object containing all the values
+        pose_message (Odom): an object containing all the values
         of the current position and posture of the robot
     """
 
@@ -90,6 +125,15 @@ def feedback_callback(pose_message):
 
 
 def movebase_client(client, target):
+    """This function is responsible for calling the movebase action server
+    to send the goal target and set some necessary parameter for the movebase
+    action. 
+
+    Args:
+        client (Object): Object for linking to the Initialize movebase action server
+        target (RandomTarget): This is a custom ROS message containing an x and y 
+        coordinate of the target position
+    """
 
     # Waits until the action server has started up and started listening for goals.
     client.wait_for_server()
@@ -119,9 +163,13 @@ def movebase_client(client, target):
 def main():
     # Initializing the node
     rospy.init_node('movebase_client')
+
     # Create an action client called "move_base" with action definition file "MoveBaseAction"
     client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
+
     rate = rospy.Rate(20)
+
+    # Initializing the servers
     s = rospy.Service('movebase_client', MoveBaseTarget, handle_target)
     t = rospy.Service('movebase_result', MoveBaseResult, handle_result)
     global state
