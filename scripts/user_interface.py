@@ -1,5 +1,29 @@
 #! /usr/bin/env python
 
+"""
+.. module:: user_interface
+    :platform: Unix
+    :synopsis: User Interface for accepting action request from the user
+.. moduleauthor:: Omotoye Adekoya adekoyaomotoye@gmail.com 
+
+This is the user interface that prints a prompt message of a number of action that can be 
+performed by the user and then set the state of the node base on the response gotten from the user
+
+Publishes to: 
+    /cmd_vel used to stop the motion of the robot on request of the user 
+    
+Service:
+    /random_target request a random target from the random target server 
+    /movebase_client request the movebase client node to move the robot to 
+    target location with the movebase action server 
+    /movebase_result request the movebase result service to wait until the robot
+    has reached the goal target. 
+    /bug_switch request the bug0 algorithm to control the robot to reach a target
+    /wall_follower_switch request the wall follower node to make the robot 
+    follow the walls in the simulation environment
+    
+"""
+
 import rospy
 
 from final_assignment.srv import RandomTarget, RandomTargetResponse

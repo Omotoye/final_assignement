@@ -1,4 +1,22 @@
 #!/usr/bin/python3
+
+"""
+.. module:: location_server 
+    :platform: Unix
+    :synopsis: Selects a random target in a 3D Simulation
+    
+.. moduleauthor:: Omotoye Adekoya adekoyaomotoye@gmail.com  
+
+This node selects a random target from the list of possible target of the environment
+for mobile robots to navigate to. it accepts a request for a target and sends a response
+of a randomly selected target. 
+    
+Service:
+    /random_target to generate random target location  
+    
+"""
+
+
 from final_assignment.srv import RandomTarget
 from final_assignment.srv import RandomTargetResponse
 from random import randint as rand

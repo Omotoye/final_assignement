@@ -1,5 +1,25 @@
 #! /usr/bin/env python
 
+"""
+.. module:: wall_follow_service_m 
+    :platform: Unix
+    :synopsis: Python module for control of a mobile robot to follow the walls 
+.. moduleauthor:: Omotoye Adekoya adekoyaomotoye@gmail.com 
+
+This node controls the mobile robot to follow ever nearby walls in the simulation
+environment
+
+Subscribes to:
+    /scan topic where the robot publishes the laser scan readings
+
+Publishes to: 
+    /cmd_vel publishes velocity command to this topic
+    
+Service:
+    /wall_follower_switch accepts a request to set the wall follower node to active   
+    
+"""
+
 import rospy
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
@@ -52,7 +72,7 @@ def clbk_laser(msg):
 def change_state(state):
     global state_, state_dict_
     if state is not state_:
-        print ('Wall follower - [%s] - %s' % (state, state_dict_[state]))
+        print('Wall follower - [%s] - %s' % (state, state_dict_[state]))
         state_ = state
 
 

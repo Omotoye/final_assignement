@@ -1,5 +1,29 @@
 #! /usr/bin/env python
 
+"""
+.. module:: bug_m
+    :platform: Unix
+    :synopsis: Python module for implementing the bug0 path planning algorithm
+.. moduleauthor:: Omotoye Adekoya adekoyaomotoye@gmail.com 
+
+This node implements the bug0 path planning algorithm for moving a robot from its current 
+position to some target position.      
+
+Subscribes to:
+    /odom topic where the simulator publishes the robot position
+    /scan topic where the robot publishes the laser scan readings
+
+Publishes to: 
+    /cmd_vel publishes velocity command to this topic
+    
+Service:
+    /go_to_point_switch sends a goal request to the go to point server 
+    /wall_follower_switch sends a request to the wall follower server 
+    /bug_switch accepts a request and sends a response to the bug switch client 
+    
+"""
+
+
 import rospy
 import time
 
@@ -19,7 +43,6 @@ import math
 pub = None
 srv_client_go_to_point_ = None
 srv_client_wall_follower_ = None
-srv_client_user_interface_ = None
 yaw_ = 0
 yaw_error_allowed_ = 5 * (math.pi / 180)  # 5 degrees
 position_ = Point()
@@ -37,7 +60,16 @@ state_ = 0
 
 
 def clbk_odom(msg):
-    
+    """
+    The pose callback function that takes the position and posture of
+    the robot from the argument "msg" and set it to
+    two global variables containing the x, y coordinates pose and yaw angle.
+
+    Args:
+        pose_message (Odom): an object containing all the values
+        of the current position and posture of the robot
+    """
+
     global position_, yaw_
 
     # position
@@ -54,6 +86,14 @@ def clbk_odom(msg):
 
 
 def clbk_laser(msg):
+    """A callback function that takes in the Laser scan reading from the
+    argument "msg" and then interpret it by disecting it into regions
+
+
+    Args:
+        msg (LaserScan): an object containing the laser scan values
+        coming from the laser sensor of the robot. 
+    """
     global regions_
     regions_ = {
         'right':  min(min(msg.ranges[0:143]), 10),
@@ -65,7 +105,17 @@ def clbk_laser(msg):
 
 
 def handle_result(mes):
-    global state_ 
+    """This is a callback function that handles the request from a client service
+    to start the bug0 node by changing the state to 0 which makes the node active
+
+    Args:
+        mes (string): a request message sent by the client calling the service. 
+
+    Returns:
+        [MoveBaseResultResponse]: returns a response message "Target Reached" when the
+        target has been reached.
+    """
+    global state_
     time.sleep(1)
     change_state(0)
     count = 0
@@ -114,7 +164,7 @@ def normalize_angle(angle):
 def main():
     time.sleep(2)
     global regions_, position_, desired_position_, state_, yaw_, yaw_error_allowed_
-    global srv_client_go_to_point_, srv_client_wall_follower_, srv_client_user_interface_, pub
+    global srv_client_go_to_point_, srv_client_wall_follower_, pub
 
     rospy.init_node('bug0')
 

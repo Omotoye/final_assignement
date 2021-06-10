@@ -1,5 +1,25 @@
 #! /usr/bin/env python
 
+"""
+.. module:: go_to_point_service_m 
+    :platform: Unix
+    :synopsis: Python module for control of a mobile robot to navigate to a target point
+.. moduleauthor:: Omotoye Adekoya adekoyaomotoye@gmail.com 
+
+This node controls a mobile robot to move from it position to some target position
+
+Subscribes to:
+    /odom topic where the simulator publishes the robot position
+
+Publishes to: 
+    /cmd_vel velocity to move to the desired robot positions
+    
+Service:
+    /go_to_point_switch accepts a request to go to a target position 
+    
+"""
+
+
 # import ros stuff
 import rospy
 from sensor_msgs.msg import LaserScan

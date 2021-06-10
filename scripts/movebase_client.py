@@ -1,5 +1,25 @@
 #! /usr/bin/env python
 
+"""
+.. module:: movebase_client 
+    :platform: Unix
+    :synopsis: Python module that acts as a client to send a goal request the movebase action
+.. moduleauthor:: Omotoye Adekoya adekoyaomotoye@gmail.com 
+
+This node is a client that accept some target from the user interface and then send the target as a goal 
+to the movebase action server
+
+Subscribes to:
+    /movebase_action_feedback topic where the movebase action sends a feedback of 
+    the current position of the robot
+    
+Service:
+    /movebase_client a server that gets the required target position from the user interface
+    /movebase_result a server that waits until the goal has been successful and then sends a 
+    response of "Target Reached" to the user interface client  
+    
+"""
+
 import rospy
 # Brings in the SimpleActionClient
 import actionlib
