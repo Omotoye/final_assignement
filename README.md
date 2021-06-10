@@ -119,6 +119,7 @@ if state_ == 2:
 
 ### How the nodes communicates
 Below is an rqt graph that shows the communication between the nodes that has just been described. 
+![RQT GRAPH](images/rosgraph.png)
 
 ## Possible Improvements to the Package
 * The major improvement that would bring more life to this package is an upgrade to the user interface, the user interface would be a lot more user-friendly and intuitive if it were a graphical interface. **_An UPDATE is coming soon, with a User Interface provided by Jupyter Notebook which would have buttons to start each of these actions and select the type of algorithm to be used._**"
