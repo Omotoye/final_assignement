@@ -1,4 +1,4 @@
-int8 cord_x # This is the response coordinates sent back to the robot controller
+int8 cord_x 
 int8 cord_y 
 ---
-bool status # This is the request message sent to the remote server
+bool status 
