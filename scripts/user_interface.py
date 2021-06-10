@@ -15,7 +15,7 @@ TARGET_POSE = [(-4, -3), (-4, 2), (-4, 7), (5, -7), (5, -3), (5, 1)]
 target2 = RandomTargetResponse()
 algo = 0
 path_planner = ['Move Base: Dijkstra', 'Bug0']
-PROMPT_MSG = f"""
+prompt_mes = f"""
 Please Enter a number corresponding to one of the following actions:
 
 Possible Position = {TARGET_POSE}
@@ -97,14 +97,13 @@ def main():
 
     # Creating a publisher object
     vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
-    global algo 
+    global algo, prompt_mes
     state = 0
     pick = 0
-    algo = 0
 
     while not rospy.is_shutdown():
         if (state == 0):
-            print(PROMPT_MSG)
+            print(prompt_mes)
             try:
                 pick = int(input("Enter the number here: "))
                 state = 1
