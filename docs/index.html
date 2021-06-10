@@ -1,0 +1,624 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Welcome to final_assignment’s documentation! &mdash; final_assignment 0.01 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> final_assignment
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Welcome to final_assignment’s documentation!</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a><ul>
+<li><a class="reference internal" href="#rt1-final-assignment-documentation">RT1 Final Assignment documentation!</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-user_interface">User Interface Module</a></li>
+<li><a class="reference internal" href="#module-location_server">Random Position Server</a></li>
+<li><a class="reference internal" href="#module-movebase_client">Move Base Action Client</a></li>
+<li><a class="reference internal" href="#module-bug_m">Bug0 Module</a></li>
+<li><a class="reference internal" href="#module-go_to_point_service_m">GoToPoint Module</a></li>
+<li><a class="reference internal" href="#wall-follow-service">Wall Follow Service</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">final_assignment</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Welcome to final_assignment’s documentation!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="welcome-to-final-assignment-s-documentation">
+<h1>Welcome to final_assignment’s documentation!<a class="headerlink" href="#welcome-to-final-assignment-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+<div class="section" id="rt1-final-assignment-documentation">
+<h2>RT1 Final Assignment documentation!<a class="headerlink" href="#rt1-final-assignment-documentation" title="Permalink to this headline">¶</a></h2>
+<p>Different Headers!
+This is the documentation of the RT1 Final Assignement package!</p>
+</div>
+</div>
+<div class="section" id="module-user_interface">
+<span id="user-interface-module"></span><h1>User Interface Module<a class="headerlink" href="#module-user_interface" title="Permalink to this headline">¶</a></h1>
+<p>This is the user interface that prints a prompt message of a number of action that can be
+performed by the user and then set the state of the node base on the response gotten from the user</p>
+<dl class="simple">
+<dt>Publishes to:</dt><dd><p>/cmd_vel used to stop the motion of the robot on request of the user</p>
+</dd>
+<dt>Service:</dt><dd><p>/random_target request a random target from the random target server
+/movebase_client request the movebase client node to move the robot to
+target location with the movebase action server
+/movebase_result request the movebase result service to wait until the robot
+has reached the goal target.
+/bug_switch request the bug0 algorithm to control the robot to reach a target
+/wall_follower_switch request the wall follower node to make the robot
+follow the walls in the simulation environment</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">user_interface.</span></code><code class="sig-name descname"><span class="pre">call_bug_algo</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_interface.html#call_bug_algo"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>This function calls the node for the bug0 algorithm, it is called
+when the user switches to bug0 algorithm. It sends a target position to the
+bug0 node by the way of ros parameter server and receives a response
+of status message</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target</strong> (<em>RandomTarget</em>) – This is a custom ROS message containing an x and y</p></li>
+<li><p><strong>of the target position</strong> (<em>coordinate</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A string containing a response message sent from the server.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[string]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">user_interface.</span></code><code class="sig-name descname"><span class="pre">call_movebase</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_interface.html#call_movebase"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>This function takes in a target position and sends it as a
+request to a service called movebase client, this service communicates
+with the movebase action server to perform path planning task for moving
+the robot from the current position to the target position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target</strong> (<em>RandomTarget</em>) – This is a custom ROS message containing an x and y</p></li>
+<li><p><strong>of the target position</strong> (<em>coordinate</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A string containing a response message sent from the server.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[string]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">user_interface.</span></code><code class="sig-name descname"><span class="pre">call_rand_target</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_interface.html#call_rand_target"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>This function sends a request to the random target service,
+the service picks a random position from the list of possible
+positions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>It returns an object of the RandomTarget message</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>[RandomTarget]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">user_interface.</span></code><code class="sig-name descname"><span class="pre">call_wall_follower</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_interface.html#call_wall_follower"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>This function calls a service to make the wall follower node active
+or to deactivate the node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – This is a boolean message that is sent to the server</p></li>
+<li><p><strong>either make the service active</strong><strong> or </strong><strong>not active</strong> (<em>to</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Boolean to signify the success of the function.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">user_interface.</span></code><code class="sig-name descname"><span class="pre">check_location</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_interface.html#check_location"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>This function checks to see if the location selected by the user
+is one of the locations contained in posible target position list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The x coordinate of the selected position</p></li>
+<li><p><strong>y</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The y coordinate of the selected position</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The function returns True if the position selected
+is in the posible target position list, and False if it is
+not in the list.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">user_interface.</span></code><code class="sig-name descname"><span class="pre">main</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_interface.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>The main function for initializing the node an calling each of the
+node functions based on the input from the user. The main function makes
+use of state value to select the appropriate function for the required task</p>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">user_interface.</span></code><code class="sig-name descname"><span class="pre">wait_for_result</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_interface.html#wait_for_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>This function sends a request to a movebase result server to wait until
+the target had been reached before send a response of target reached.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A string containing a response message “Target Reached”.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>[string]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-location_server">
+<span id="random-position-server"></span><h1>Random Position Server<a class="headerlink" href="#module-location_server" title="Permalink to this headline">¶</a></h1>
+<p>This node selects a random target from the list of possible target of the environment
+for mobile robots to navigate to. it accepts a request for a target and sends a response
+of a randomly selected target.</p>
+<dl class="simple">
+<dt>Service:</dt><dd><p>/random_target to generate random target location</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">location_server.</span></code><code class="sig-name descname"><span class="pre">handle_random_target</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">req</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/location_server.html#handle_random_target"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Takes in a request message and returns a random target
+coordinte, x and y</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>req</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The request message sent by the Client</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The response sent to the Client</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[Object]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">location_server.</span></code><code class="sig-name descname"><span class="pre">random_target_gen</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/location_server.html#random_target_gen"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Initializes the Service and sends request message to
+the callback function</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-movebase_client">
+<span id="move-base-action-client"></span><h1>Move Base Action Client<a class="headerlink" href="#module-movebase_client" title="Permalink to this headline">¶</a></h1>
+<p>This node is a client that accept some target from the user interface and then send the target as a goal
+to the movebase action server</p>
+<dl class="simple">
+<dt>Subscribes to:</dt><dd><p>/movebase_action_feedback topic where the movebase action sends a feedback of
+the current position of the robot</p>
+</dd>
+<dt>Service:</dt><dd><p>/movebase_client a server that gets the required target position from the user interface
+/movebase_result a server that waits until the goal has been successful and then sends a
+response of “Target Reached” to the user interface client</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">movebase_client.</span></code><code class="sig-name descname"><span class="pre">check_target</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/movebase_client.html#check_target"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>This function check to see if the robot is not already in the new
+target that is received.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target</strong> (<em>RandomTarget</em>) – This is a custom ROS message containing an x and y</p></li>
+<li><p><strong>of the target position</strong> (<em>coordinate</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The function returns True if the robot is already at the new
+target received and returns False if the robot is not at the new target received.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">movebase_client.</span></code><code class="sig-name descname"><span class="pre">feedback_callback</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pose_message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/movebase_client.html#feedback_callback"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>The pose callback function takes the position and posture of
+the robot from the argument “pose_message” and set it to
+two global variables containing the x and y coordinates pose.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pose_message</strong> (<em>Odom</em>) – an object containing all the values</p></li>
+<li><p><strong>the current position and posture of the robot</strong> (<em>of</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">movebase_client.</span></code><code class="sig-name descname"><span class="pre">handle_result</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/movebase_client.html#handle_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>This is a callback function for a service for waiting for the result from
+the movebase action server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mes</strong> (<em>string</em>) – Containing a string message from the client that called this service</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Send a response of status message “Target Reached”
+to the client when state is set to SUCCEEDED by the movebase action.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[MoveBaseResultResponse]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">movebase_client.</span></code><code class="sig-name descname"><span class="pre">handle_target</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/movebase_client.html#handle_target"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>This function is a callback function for the movebase client that sets
+the state to 1 which means active (start goal)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mes</strong> (<em>RandomTarget</em>) – This is a custom ROS message containing an x and y</p></li>
+<li><p><strong>of the target position</strong> (<em>coordinate</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Sends a response status message to the client
+that called the service</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[MoveBaseTargetResponse]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">movebase_client.</span></code><code class="sig-name descname"><span class="pre">movebase_client</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/movebase_client.html#movebase_client"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>This function is responsible for calling the movebase action server
+to send the goal target and set some necessary parameter for the movebase
+action.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<em>Object</em>) – Object for linking to the Initialize movebase action server</p></li>
+<li><p><strong>target</strong> (<em>RandomTarget</em>) – This is a custom ROS message containing an x and y</p></li>
+<li><p><strong>of the target position</strong> (<em>coordinate</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">movebase_client.</span></code><code class="sig-name descname"><span class="pre">the_distance_to_target</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/movebase_client.html#the_distance_to_target"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Calculate the distance between the position of the robot and the
+target position</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target</strong> (<em>RandomTarget</em>) – This is a custom ROS message containing an x and y</p></li>
+<li><p><strong>of the target position</strong> (<em>coordinate</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A float containing the distance between the robot pose
+and the target pose.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-bug_m">
+<span id="bug0-module"></span><h1>Bug0 Module<a class="headerlink" href="#module-bug_m" title="Permalink to this headline">¶</a></h1>
+<p>This node implements the bug0 path planning algorithm for moving a robot from its current
+position to some target position.</p>
+<dl class="simple">
+<dt>Subscribes to:</dt><dd><p>/odom topic where the simulator publishes the robot position
+/scan topic where the robot publishes the laser scan readings</p>
+</dd>
+<dt>Publishes to:</dt><dd><p>/cmd_vel publishes velocity command to this topic</p>
+</dd>
+<dt>Service:</dt><dd><p>/go_to_point_switch sends a goal request to the go to point server
+/wall_follower_switch sends a request to the wall follower server
+/bug_switch accepts a request and sends a response to the bug switch client</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">bug_m.</span></code><code class="sig-name descname"><span class="pre">clbk_laser</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bug_m.html#clbk_laser"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>A callback function that takes in the Laser scan reading from the
+argument “msg” and then interpret it by disecting it into regions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>msg</strong> (<em>LaserScan</em>) – an object containing the laser scan values</p></li>
+<li><p><strong>from the laser sensor of the robot.</strong> (<em>coming</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">bug_m.</span></code><code class="sig-name descname"><span class="pre">clbk_odom</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bug_m.html#clbk_odom"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>The pose callback function that takes the position and posture of
+the robot from the argument “msg” and set it to
+two global variables containing the x, y coordinates pose and yaw angle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pose_message</strong> (<em>Odom</em>) – an object containing all the values</p></li>
+<li><p><strong>the current position and posture of the robot</strong> (<em>of</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt>
+<code class="sig-prename descclassname"><span class="pre">bug_m.</span></code><code class="sig-name descname"><span class="pre">handle_result</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bug_m.html#handle_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>This is a callback function that handles the request from a client service
+to start the bug0 node by changing the state to 0 which makes the node active</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mes</strong> (<em>string</em>) – a request message sent by the client calling the service.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>returns a response message “Target Reached” when the
+target has been reached.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[MoveBaseResultResponse]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-go_to_point_service_m">
+<span id="gotopoint-module"></span><h1>GoToPoint Module<a class="headerlink" href="#module-go_to_point_service_m" title="Permalink to this headline">¶</a></h1>
+<p>This node controls a mobile robot to move from it position to some target position</p>
+<dl class="simple">
+<dt>Subscribes to:</dt><dd><p>/odom topic where the simulator publishes the robot position</p>
+</dd>
+<dt>Publishes to:</dt><dd><p>/cmd_vel velocity to move to the desired robot positions</p>
+</dd>
+<dt>Service:</dt><dd><p>/go_to_point_switch accepts a request to go to a target position</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="wall-follow-service">
+<h1>Wall Follow Service<a class="headerlink" href="#wall-follow-service" title="Permalink to this headline">¶</a></h1>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Omotoye Shamsudeen Adekoya.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

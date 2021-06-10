@@ -1,0 +1,62 @@
+.. final_assignment documentation master file, created by
+   sphinx-quickstart on Thu Jun 10 21:08:33 2021.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to final_assignment's documentation!
+============================================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
+RT1 Final Assignment documentation!
+*************************************
+Different Headers!
+This is the documentation of the RT1 Final Assignement package!
+
+User Interface Module
+=======================
+.. automodule:: user_interface
+   :members:
+   :noindex:
+
+Random Position Server 
+========================
+.. automodule:: location_server
+   :members:
+   :noindex:
+
+Move Base Action Client 
+==========================
+.. automodule:: movebase_client
+   :members:
+   :noindex:
+
+Bug0 Module
+=====================
+.. automodule:: bug_m
+   :members:
+   :noindex:
+
+GoToPoint Module
+=====================
+.. automodule:: go_to_point_service_m
+   :members:
+   :noindex:
+
+Wall Follow Service
+=====================
+.. automodule: wall_follow_service_m 
+   :members:
+   :noindex:
+

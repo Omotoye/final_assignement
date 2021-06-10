@@ -1,0 +1,465 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>user_interface &mdash; final_assignment 0.01 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> final_assignment
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">final_assignment</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>user_interface</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for user_interface</h1><div class="highlight"><pre>
+<span></span><span class="ch">#! /usr/bin/env python</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: user_interface</span>
+<span class="sd">    :platform: Unix</span>
+<span class="sd">    :synopsis: User Interface for accepting action request from the user</span>
+<span class="sd">.. moduleauthor:: Omotoye Adekoya adekoyaomotoye@gmail.com </span>
+
+<span class="sd">This is the user interface that prints a prompt message of a number of action that can be </span>
+<span class="sd">performed by the user and then set the state of the node base on the response gotten from the user</span>
+
+<span class="sd">Publishes to: </span>
+<span class="sd">    /cmd_vel used to stop the motion of the robot on request of the user </span>
+<span class="sd">    </span>
+<span class="sd">Service:</span>
+<span class="sd">    /random_target request a random target from the random target server </span>
+<span class="sd">    /movebase_client request the movebase client node to move the robot to </span>
+<span class="sd">    target location with the movebase action server </span>
+<span class="sd">    /movebase_result request the movebase result service to wait until the robot</span>
+<span class="sd">    has reached the goal target. </span>
+<span class="sd">    /bug_switch request the bug0 algorithm to control the robot to reach a target</span>
+<span class="sd">    /wall_follower_switch request the wall follower node to make the robot </span>
+<span class="sd">    follow the walls in the simulation environment</span>
+<span class="sd">    </span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">rospy</span>
+
+<span class="kn">from</span> <span class="nn">final_assignment.srv</span> <span class="kn">import</span> <span class="n">RandomTarget</span><span class="p">,</span> <span class="n">RandomTargetResponse</span>
+<span class="kn">from</span> <span class="nn">final_assignment.srv</span> <span class="kn">import</span> <span class="n">MoveBaseTarget</span><span class="p">,</span> <span class="n">MoveBaseResult</span>
+<span class="kn">from</span> <span class="nn">std_srvs.srv</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">geometry_msgs.msg</span> <span class="kn">import</span> <span class="n">Twist</span>
+
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="c1"># List containing all the possible target location in the simulation</span>
+<span class="n">TARGET_POSE</span> <span class="o">=</span> <span class="p">[(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">7</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+
+<span class="n">target2</span> <span class="o">=</span> <span class="n">RandomTargetResponse</span><span class="p">()</span>
+<span class="n">algo</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">path_planner</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Move Base: Dijkstra&#39;</span><span class="p">,</span> <span class="s1">&#39;Bug0&#39;</span><span class="p">]</span>
+
+<span class="c1"># Prompt message to inform the user of the actions that can be performed</span>
+<span class="n">prompt_mes</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Please Enter a number corresponding to one of the following actions:</span>
+
+<span class="s2">Possible Position = </span><span class="si">{</span><span class="n">TARGET_POSE</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">Path Planning Algorithm: </span><span class="si">{</span><span class="n">path_planner</span><span class="p">[</span><span class="n">algo</span><span class="p">]</span><span class="si">}</span><span class="s2"></span>
+
+<span class="s2">1. Move to a Random position from one of the 6 possible positions.</span>
+<span class="s2">2. Select one of the possible positions.</span>
+<span class="s2">3. Start following external walls.</span>
+<span class="s2">4. Stop in the last position. </span>
+<span class="s2">5. Change the planning Algorithm from Dijkstra to Bug0</span>
+
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="check_location"><a class="viewcode-back" href="../index.html#user_interface.check_location">[docs]</a><span class="k">def</span> <span class="nf">check_location</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This function checks to see if the location selected by the user</span>
+<span class="sd">    is one of the locations contained in posible target position list</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (int): The x coordinate of the selected position</span>
+<span class="sd">        y (int): The y coordinate of the selected position</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        [bool]: The function returns True if the position selected </span>
+<span class="sd">        is in the posible target position list, and False if it is</span>
+<span class="sd">        not in the list. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="n">TARGET_POSE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="call_rand_target"><a class="viewcode-back" href="../index.html#user_interface.call_rand_target">[docs]</a><span class="k">def</span> <span class="nf">call_rand_target</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;This function sends a request to the random target service, </span>
+<span class="sd">    the service picks a random position from the list of possible </span>
+<span class="sd">    positions. </span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        [RandomTarget]: It returns an object of the RandomTarget message </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">wait_for_service</span><span class="p">(</span><span class="s1">&#39;random_target&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">random_target</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceProxy</span><span class="p">(</span><span class="s1">&#39;random_target&#39;</span><span class="p">,</span> <span class="n">RandomTarget</span><span class="p">)</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">random_target</span><span class="p">(</span><span class="s1">&#39;Waiting for Target&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Service call failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">target</span></div>
+
+
+<div class="viewcode-block" id="call_movebase"><a class="viewcode-back" href="../index.html#user_interface.call_movebase">[docs]</a><span class="k">def</span> <span class="nf">call_movebase</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This function takes in a target position and sends it as a </span>
+<span class="sd">    request to a service called movebase client, this service communicates</span>
+<span class="sd">    with the movebase action server to perform path planning task for moving</span>
+<span class="sd">    the robot from the current position to the target position. </span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        target (RandomTarget): This is a custom ROS message containing an x and y </span>
+<span class="sd">        coordinate of the target position</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        [string]: A string containing a response message sent from the server. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">wait_for_service</span><span class="p">(</span><span class="s1">&#39;movebase_client&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">movebase_client</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceProxy</span><span class="p">(</span><span class="s1">&#39;movebase_client&#39;</span><span class="p">,</span> <span class="n">MoveBaseTarget</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">movebase_client</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">cord_x</span><span class="p">,</span> <span class="n">target</span><span class="o">.</span><span class="n">cord_y</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">status</span>
+    <span class="k">except</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Service call failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="call_bug_algo"><a class="viewcode-back" href="../index.html#user_interface.call_bug_algo">[docs]</a><span class="k">def</span> <span class="nf">call_bug_algo</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This function calls the node for the bug0 algorithm, it is called </span>
+<span class="sd">    when the user switches to bug0 algorithm. It sends a target position to the</span>
+<span class="sd">    bug0 node by the way of ros parameter server and receives a response</span>
+<span class="sd">    of status message</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        target (RandomTarget): This is a custom ROS message containing an x and y </span>
+<span class="sd">        coordinate of the target position</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        [string]: A string containing a response message sent from the server. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># sends the x and y coordinate to a parameter server</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">set_param</span><span class="p">(</span><span class="s2">&quot;des_pos_x&quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">.</span><span class="n">cord_x</span><span class="p">)</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">set_param</span><span class="p">(</span><span class="s2">&quot;des_pos_y&quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">.</span><span class="n">cord_y</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Thanks! Let&#39;s reach the next position&quot;</span><span class="p">)</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">wait_for_service</span><span class="p">(</span><span class="s1">&#39;bug_switch&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">bug0</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceProxy</span><span class="p">(</span><span class="s1">&#39;bug_switch&#39;</span><span class="p">,</span> <span class="n">MoveBaseResult</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">bug0</span><span class="p">(</span><span class="s1">&#39;Are you there yet!&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">status</span>
+    <span class="k">except</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Service call failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="wait_for_result"><a class="viewcode-back" href="../index.html#user_interface.wait_for_result">[docs]</a><span class="k">def</span> <span class="nf">wait_for_result</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;This function sends a request to a movebase result server to wait until</span>
+<span class="sd">    the target had been reached before send a response of target reached. </span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        [string]: A string containing a response message &quot;Target Reached&quot;. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">wait_for_service</span><span class="p">(</span><span class="s1">&#39;movebase_result&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">movebase_result</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceProxy</span><span class="p">(</span><span class="s1">&#39;movebase_result&#39;</span><span class="p">,</span> <span class="n">MoveBaseResult</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">movebase_result</span><span class="p">(</span><span class="s1">&#39;Are you there yet!&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">status</span>
+    <span class="k">except</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Service call failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="call_wall_follower"><a class="viewcode-back" href="../index.html#user_interface.call_wall_follower">[docs]</a><span class="k">def</span> <span class="nf">call_wall_follower</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This function calls a service to make the wall follower node active</span>
+<span class="sd">    or to deactivate the node. </span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        msg (bool): This is a boolean message that is sent to the server </span>
+<span class="sd">        to either make the service active or not active </span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        [bool]: Boolean to signify the success of the function. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">wait_for_service</span><span class="p">(</span><span class="s1">&#39;/wall_follower_switch&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">srv_client_wall_follower_</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceProxy</span><span class="p">(</span>
+            <span class="s1">&#39;/wall_follower_switch&#39;</span><span class="p">,</span> <span class="n">SetBool</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">srv_client_wall_follower_</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ServiceException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Service call failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../index.html#user_interface.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;The main function for initializing the node an calling each of the </span>
+<span class="sd">    node functions based on the input from the user. The main function makes </span>
+<span class="sd">    use of state value to select the appropriate function for the required task </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Initializing the node</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="s1">&#39;user_interface&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Creating a publisher object</span>
+    <span class="n">vel_pub</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Publisher</span><span class="p">(</span><span class="s1">&#39;cmd_vel&#39;</span><span class="p">,</span> <span class="n">Twist</span><span class="p">,</span> <span class="n">queue_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">global</span> <span class="n">algo</span><span class="p">,</span> <span class="n">prompt_mes</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">pick</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">rospy</span><span class="o">.</span><span class="n">is_shutdown</span><span class="p">():</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">state</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">prompt_mes</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">pick</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter the number here: &quot;</span><span class="p">))</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">PLEASE ENTER A VALID NUMBER !!!</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">pick</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="n">call_rand_target</span><span class="p">()</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">algo</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">resp</span> <span class="o">=</span> <span class="n">call_movebase</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+                <span class="k">while</span> <span class="p">(</span><span class="n">resp</span><span class="p">):</span>
+                    <span class="n">target</span> <span class="o">=</span> <span class="n">call_rand_target</span><span class="p">()</span>
+                    <span class="n">resp</span> <span class="o">=</span> <span class="n">call_movebase</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+                <span class="n">wait_for_result</span><span class="p">()</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">resp</span> <span class="o">=</span> <span class="n">call_bug_algo</span><span class="p">(</span><span class="n">target2</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+                <span class="n">algo</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">elif</span> <span class="p">(</span><span class="n">pick</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Please enter a x and y cordinate from the possible position list&#39;</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s1">&#39;x: &#39;</span><span class="p">))</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s1">&#39;y: &#39;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">check_location</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)):</span>
+                <span class="n">target2</span><span class="o">.</span><span class="n">cord_x</span> <span class="o">=</span> <span class="n">x</span>
+                <span class="n">target2</span><span class="o">.</span><span class="n">cord_y</span> <span class="o">=</span> <span class="n">y</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">algo</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                    <span class="n">resp</span> <span class="o">=</span> <span class="n">call_movebase</span><span class="p">(</span><span class="n">target2</span><span class="p">)</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">resp</span><span class="p">):</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The Robot is already at this location&#39;</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">wait_for_result</span><span class="p">()</span>
+                        <span class="n">state</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">resp</span> <span class="o">=</span> <span class="n">call_bug_algo</span><span class="p">(</span><span class="n">target2</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+                    <span class="n">algo</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">state</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Please enter one of the possible positions&#39;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="p">(</span><span class="n">pick</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">call_wall_follower</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Follow Wall has Started&#39;</span><span class="p">)</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">pick</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">call_wall_follower</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="c1"># Creating an object for the robot motion</span>
+            <span class="n">velocity</span> <span class="o">=</span> <span class="n">Twist</span><span class="p">()</span>
+            <span class="n">velocity</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">velocity</span><span class="o">.</span><span class="n">angular</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">vel_pub</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="n">velocity</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Follow wall has been stopped&#39;</span><span class="p">)</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">pick</span> <span class="o">==</span> <span class="mi">5</span> <span class="ow">and</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">algo</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The path planning algorithm has been changed to Bug0&#39;</span><span class="p">)</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">pick</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)):</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">main</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">rospy</span><span class="o">.</span><span class="n">ROSInterruptException</span><span class="p">:</span>
+        <span class="k">pass</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Omotoye Shamsudeen Adekoya.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
