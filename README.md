@@ -33,6 +33,7 @@ There are 6 location listed as a possible targets for the robot to navigate to a
 <div align="center">
 <img src="images/simulation.gif" title="MoveBase Path Planning simulation" alt="MoveBase Path Planning simulation" >
 </div>
+
 ## How the nodes in the package works
 A number of nodes work together to make this package work as prescribed, however, all this would not be possible without the custom service message that was created, so the description of the workings of the package would begin with the custom services that was created for the communication of the nodes. 
 
