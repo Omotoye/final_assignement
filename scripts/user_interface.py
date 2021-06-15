@@ -41,22 +41,6 @@ target2 = RandomTargetResponse()
 algo = 0
 path_planner = ['Move Base: Dijkstra', 'Bug0']
 
-# Prompt message to inform the user of the actions that can be performed
-prompt_mes = f"""
-Please Enter a number corresponding to one of the following actions:
-
-Possible Position = {TARGET_POSE}
-Path Planning Algorithm: {path_planner[algo]}
-
-1. Move to a Random position from one of the 6 possible positions.
-2. Select one of the possible positions.
-3. Start following external walls.
-4. Stop in the last position. 
-5. Change the planning Algorithm from Dijkstra to Bug0
-
-"""
-
-
 def check_location(x, y):
     """This function checks to see if the location selected by the user
     is one of the locations contained in posible target position list
@@ -189,11 +173,25 @@ def main():
 
     # Creating a publisher object
     vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
-    global algo, prompt_mes
+    global algo
     state = 0
     pick = 0
 
     while not rospy.is_shutdown():
+        # Prompt message to inform the user of the actions that can be performed
+        prompt_mes = f"""
+Please Enter a number corresponding to one of the following actions:
+
+Possible Position = {TARGET_POSE}
+Path Planning Algorithm: {path_planner[algo]}
+
+1. Move to a Random position from one of the 6 possible positions.
+2. Select one of the possible positions.
+3. Start following external walls.
+4. Stop in the last position. 
+5. Change the planning Algorithm from Dijkstra to Bug0
+
+        """
         if (state == 0):
             print(prompt_mes)
             try:
